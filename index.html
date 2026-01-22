@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siamo PMS Presentation</title>
+    <style>
+        /* --- CSS Variables & Theme --- */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #475569;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --secondary-color: #94a3b8;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+        }
+
+        /* --- Global Styles --- */
+        * { box-sizing: border-box; transition: background-color 0.3s, color 0.3s; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: var(--card-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
+        .controls { display: flex; gap: 1rem; align-items: center; }
+        select, button {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        header {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { font-size: 1.2rem; opacity: 0.9; margin-top: 1rem; }
+
+        /* --- Layout Containers --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        section { margin-bottom: 4rem; scroll-margin-top: 80px; }
+        h2 { 
+            border-left: 5px solid var(--primary-color); 
+            padding-left: 1rem; 
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        /* --- Cards & Grid --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        .card h3 { margin-top: 0; color: var(--primary-color); }
+
+        /* --- Timeline Style (Turnover) --- */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 2px solid var(--border-color);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+        .highlight { color: var(--accent-red); font-weight: bold; }
+        
+        /* --- Badge --- */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .bg-green { background-color: var(--accent-green); }
+        .bg-red { background-color: var(--accent-red); }
+        .bg-blue { background-color: var(--primary-color); }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Siamo PMS</div>
+        <div class="controls">
+            <select id="lang-select" onchange="changeLanguage()">
+                <option value="th">🇹🇭 ไทย</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="ru">🇷🇺 Русский</option>
+                <option value="cn">🇨🇳 中文</option>
+            </select>
+            <button id="theme-toggle" onclick="toggleTheme()">🌙 Mode</button>
+        </div>
+    </nav>
+
+    <header>
+        <h1 data-i18n="hero_title">ระบบบริหารทรัพย์สิน Siamo PMS</h1>
+        <p data-i18n="hero_desc">ควบคุมคุณภาพ • ความโปร่งใสทางการเงิน • การจัดการความเสี่ยง</p>
+    </header>
+
+    <div class="container">
+
+        <section id="turnover">
+            <h2 data-i18n="sec1_title">1. วงจร Turnover (Check-out → ห้องพร้อมขาย)</h2>
+            <div class="card">
+                <div class="timeline-item">
+                    <strong data-i18n="step1_1">1.1 Pre Check-out</strong>
+                    <p data-i18n="step1_1_desc">ระบบเตือนแขก ลดปัญหาออกล่าช้า (Booking Active)</p>
+                </div>
+                <div class="timeline-item">
+                    <strong data-i18n="step1_2">1.2 Check-out</strong>
+                    <p data-i18n="step1_2_desc">แขกยืนยันออก ห้องเข้าสู่สถานะ Turnover เพื่อรอตรวจสอบ</p>
+                </div>
+                <div class="timeline-item">
+                    <strong data-i18n="step1_3">1.3 Inspection (Critical Control Point)</strong>
+                    <p data-i18n="step1_3_desc">ตรวจสอบและถ่ายภาพสภาพจริงก่อนทำความสะอาด <br> <span class="highlight">พบความเสียหาย:</span> ระงับมัดจำ, แจ้ง Owner, สร้าง Ticket</p>
+                </div>
+                <div class="timeline-item">
+                    <strong data-i18n="step1_4">1.4 Cleaning</strong>
+                    <p data-i18n="step1_4_desc">ทำความสะอาดตาม Checklist + ถ่ายภาพหลังทำ (Clean Photos)</p>
+                </div>
+                <div class="timeline-item">
+                    <strong data-i18n="step1_5">1.5 Readiness</strong>
+                    <p data-i18n="step1_5_desc">ตรวจสอบ SLA, ส่งข้อความขอบคุณและขอรีวิว</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="financial">
+            <h2 data-i18n="sec2_title">2. วงจรการเงิน (Financial Cycle)</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3 data-i18n="fin_calc">2.1 คำนวณรายได้</h3>
+                    <p data-i18n="fin_calc_desc">คิดเฉพาะรายได้จริง (ค่าพัก - ค่าบริหาร - ค่าใช้จ่าย)</p>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="fin_review">2.3 ตรวจสอบ (Manual Control)</h3>
+                    <p data-i18n="fin_review_desc">Manager ตรวจสอบ Draft Statement ปรับค่าเสียหาย/คืนเงิน ก่อนยืนยัน</p>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="fin_payout">2.4 จ่ายเงิน (Payout)</h3>
+                    <p data-i18n="fin_payout_desc">Payment Gateway ประมวลผลเมื่อ Statement เป็น Final</p>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="fin_audit">2.5 บันทึก & แจ้งเตือน</h3>
+                    <p data-i18n="fin_audit_desc">บันทึกเพื่อ Audit และแจ้ง Owner เพื่อความโปร่งใส</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="risk">
+            <h2 data-i18n="sec3_title">3. วงจรบริหารความเสี่ยง</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="badge bg-blue" data-i18n="risk_monitor">Monitoring</span>
+                    <p data-i18n="risk_monitor_desc">ติดตาม Booking, Ticket, Payment, Feedback</p>
+                </div>
+                <div class="card">
+                    <span class="badge bg-red" data-i18n="risk_detect">Detection</span>
+                    <p data-i18n="risk_detect_desc">สัญญาณ: ความเสียหาย, ร้องเรียน, จ่ายเงินช้า</p>
+                </div>
+                <div class="card">
+                    <span class="badge bg-green" data-i18n="risk_action">Mitigation</span>
+                    <p data-i18n="risk_action_desc">Low: SOP ปกติ / High: เปิด Risk Case, ระงับมัดจำ</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="users">
+            <h2 data-i18n="sec4_title">4. ผู้ใช้งานหลัก (Use Case)</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Guest</h3>
+                    <ul data-i18n="role_guest">
+                        <li>จอง / สื่อสาร</li>
+                        <li>Check-in / Stay</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Ops Team</h3>
+                    <ul data-i18n="role_ops">
+                        <li>ตรวจสอบห้อง (Inspection)</li>
+                        <li>ทำความสะอาด</li>
+                        <li>แก้ปัญหาหน้างาน</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Manager</h3>
+                    <ul data-i18n="role_manager">
+                        <li>ควบคุมการเงิน</li>
+                        <li>จัดการความเสี่ยง</li>
+                        <li>อนุมัติ Payout</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Owner</h3>
+                    <ul data-i18n="role_owner">
+                        <li>ตรวจสอบ Statement</li>
+                        <li>รับรายได้</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="summary" style="text-align: center;">
+            <div class="card" style="background: var(--bg-color); border: 2px solid var(--primary-color);">
+                <h2 data-i18n="summary_title">สรุปจุดเด่น Siamo PMS</h2>
+                <p style="font-size: 1.1rem;" data-i18n="summary_desc">
+                    Control-driven PMS: มีหลักฐานทุกขั้นตอน • ป้องกันข้อพิพาท • โปร่งใสด้านการเงิน • พร้อมขยายระดับ Enterprise
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Siamo PMS Presentation. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // --- Translations Data ---
+        const translations = {
+            th: {
+                hero_title: "ระบบบริหารทรัพย์สิน Siamo PMS",
+                hero_desc: "ควบคุมคุณภาพ • ความโปร่งใสทางการเงิน • การจัดการความเสี่ยง",
+                sec1_title: "1. วงจร Turnover (Check-out → ห้องพร้อมขาย)",
+                step1_1: "1.1 Pre Check-out",
+                step1_1_desc: "ระบบเตือนแขก ลดปัญหาออกล่าช้า (Booking Active)",
+                step1_2: "1.2 Check-out",
+                step1_2_desc: "แขกยืนยันออก ห้องเข้าสู่สถานะ Turnover เพื่อรอตรวจสอบ",
+                step1_3: "1.3 Inspection (Critical Point)",
+                step1_3_desc: "ตรวจสอบสภาพจริงก่อนทำความสะอาด <br> พบความเสียหาย: ระงับมัดจำ, สร้าง Ticket",
+                step1_4: "1.4 Cleaning",
+                step1_4_desc: "ทำความสะอาดตาม Checklist + ถ่ายภาพหลักฐาน (Clean Photos)",
+                step1_5: "1.5 Readiness",
+                step1_5_desc: "ตรวจสอบ SLA, ส่งข้อความขอบคุณและขอรีวิว",
+                sec2_title: "2. วงจรการเงิน (Financial Cycle)",
+                fin_calc: "2.1 คำนวณรายได้",
+                fin_calc_desc: "คิดเฉพาะรายได้จริง (ค่าพัก - ค่าบริหาร - ค่าใช้จ่าย)",
+                fin_review: "2.3 ตรวจสอบ (Manual Control)",
+                fin_review_desc: "Manager ตรวจสอบ Draft ปรับค่าเสียหาย/คืนเงิน ก่อนยืนยัน",
+                fin_payout: "2.4 จ่ายเงิน (Payout)",
+                fin_payout_desc: "Payment Gateway ประมวลผลเมื่อ Statement เป็น Final",
+                fin_audit: "2.5 บันทึก & แจ้งเตือน",
+                fin_audit_desc: "บันทึกเพื่อ Audit และแจ้ง Owner เพื่อความโปร่งใส",
+                sec3_title: "3. วงจรบริหารความเสี่ยง",
+                risk_monitor: "Monitoring",
+                risk_monitor_desc: "ติดตาม Booking, Ticket, Payment, Feedback",
+                risk_detect: "Detection",
+                risk_detect_desc: "สัญญาณ: ความเสียหาย, ร้องเรียน, จ่ายเงินช้า",
+                risk_action: "Mitigation",
+                risk_action_desc: "Low: SOP ปกติ / High: เปิด Risk Case, ระงับมัดจำ",
+                sec4_title: "4. ผู้ใช้งานหลัก (Use Case)",
+                role_guest: "<li>จอง / สื่อสาร</li><li>Check-in / Stay</li>",
+                role_ops: "<li>ตรวจสอบห้อง (Inspection)</li><li>ทำความสะอาด</li><li>แก้ปัญหาหน้างาน</li>",
+                role_manager: "<li>ควบคุมการเงิน</li><li>จัดการความเสี่ยง</li><li>อนุมัติ Payout</li>",
+                role_owner: "<li>ตรวจสอบ Statement</li><li>รับรายได้</li>",
+                summary_title: "สรุปจุดเด่น Siamo PMS",
+                summary_desc: "Control-driven PMS: มีหลักฐานทุกขั้นตอน • ป้องกันข้อพิพาท • โปร่งใสด้านการเงิน • พร้อมขยายระดับ Enterprise"
+            },
+            en: {
+                hero_title: "Siamo PMS Overview",
+                hero_desc: "Operational Quality • Financial Transparency • Risk Management",
+                sec1_title: "1. Turnover Cycle (Check-out → Ready)",
+                step1_1: "1.1 Pre Check-out",
+                step1_1_desc: "Guest reminder to reduce late check-outs (Booking Active).",
+                step1_2: "1.2 Check-out",
+                step1_2_desc: "Guest confirms checkout. Room status: Turnover.",
+                step1_3: "1.3 Inspection (Critical Point)",
+                step1_3_desc: "Condition check before cleaning. <br> Damage found: Hold deposit, Create Ticket.",
+                step1_4: "1.4 Cleaning",
+                step1_4_desc: "Checklist cleaning + Upload Clean Photos as evidence.",
+                step1_5: "1.5 Readiness",
+                step1_5_desc: "SLA Check, Thank you message & Review request.",
+                sec2_title: "2. Financial Cycle",
+                fin_calc: "2.1 Revenue Calculation",
+                fin_calc_desc: "Calculate actual revenue (Stay - Fee - Expenses).",
+                fin_review: "2.3 Review (Manual Control)",
+                fin_review_desc: "Manager reviews Draft. Adjusts for damages/refunds.",
+                fin_payout: "2.4 Payout",
+                fin_payout_desc: "Payment Gateway processes when Statement is Final.",
+                fin_audit: "2.5 Notifications & Records",
+                fin_audit_desc: "Recorded for Audit and sent to Owner for transparency.",
+                sec3_title: "3. Risk Management",
+                risk_monitor: "Monitoring",
+                risk_monitor_desc: "Track Booking, Ticket, Payment, Feedback.",
+                risk_detect: "Detection",
+                risk_detect_desc: "Signals: Damages, Complaints, Late Payment.",
+                risk_action: "Mitigation",
+                risk_action_desc: "Low: SOP / High: Escalate, Open Risk Case, Hold Deposit.",
+                sec4_title: "4. Key Use Cases",
+                role_guest: "<li>Request / Communication</li><li>Check-in / Stay</li>",
+                role_ops: "<li>Inspection</li><li>Cleaning</li><li>Resolve Issues</li>",
+                role_manager: "<li>Financial Control</li><li>Risk Management</li><li>Approve Payout</li>",
+                role_owner: "<li>Review Statement</li><li>Receive Payout</li>",
+                summary_title: "Siamo PMS Summary",
+                summary_desc: "Control-driven PMS: Evidence at every step • Dispute prevention • Financial transparency • Enterprise ready."
+            },
+            ru: {
+                hero_title: "Обзор Siamo PMS",
+                hero_desc: "Качество операций • Финансовая прозрачность • Управление рисками",
+                sec1_title: "1. Цикл оборота (Check-out → Готовность)",
+                step1_1: "1.1 Предварительный выезд",
+                step1_1_desc: "Напоминание гостю (Booking Active).",
+                step1_2: "1.2 Выезд (Check-out)",
+                step1_2_desc: "Подтверждение выезда. Статус комнаты: Оборот.",
+                step1_3: "1.3 Инспекция (Критическая точка)",
+                step1_3_desc: "Проверка состояния. <br> Ущерб: Удержание депозита, Тикет.",
+                step1_4: "1.4 Уборка",
+                step1_4_desc: "Уборка по чеклисту + Фото уборки (Clean Photos).",
+                step1_5: "1.5 Готовность",
+                step1_5_desc: "Проверка SLA, Сообщение с благодарностью.",
+                sec2_title: "2. Финансовый цикл",
+                fin_calc: "2.1 Расчет выручки",
+                fin_calc_desc: "Фактический доход за вычетом расходов.",
+                fin_review: "2.3 Проверка (Ручной контроль)",
+                fin_review_desc: "Менеджер проверяет отчет. Корректировка ущерба.",
+                fin_payout: "2.4 Выплата",
+                fin_payout_desc: "Платежный шлюз обрабатывает финальный отчет.",
+                fin_audit: "2.5 Уведомления и записи",
+                fin_audit_desc: "Запись для аудита и уведомление владельца.",
+                sec3_title: "3. Управление рисками",
+                risk_monitor: "Мониторинг",
+                risk_monitor_desc: "Бронирования, Тикеты, Платежи.",
+                risk_detect: "Обнаружение",
+                risk_detect_desc: "Сигналы: Ущерб, Жалобы, Задержка оплаты.",
+                risk_action: "Смягчение",
+                risk_action_desc: "Low: SOP / High: Кейс риска, Удержание депозита.",
+                sec4_title: "4. Роли пользователей",
+                role_guest: "<li>Запрос / Связь</li><li>Заезд / Проживание</li>",
+                role_ops: "<li>Инспекция</li><li>Уборка</li><li>Решение проблем</li>",
+                role_manager: "<li>Финансовый контроль</li><li>Риски</li><li>Выплаты</li>",
+                role_owner: "<li>Проверка отчета</li><li>Получение денег</li>",
+                summary_title: "Итоги Siamo PMS",
+                summary_desc: "PMS на основе контроля: Доказательства на каждом этапе • Предотвращение споров • Прозрачность."
+            },
+            cn: {
+                hero_title: "Siamo PMS 系统概览",
+                hero_desc: "运营质量 • 财务透明度 • 风险管理",
+                sec1_title: "1. 周转周期 (退房 → 待售)",
+                step1_1: "1.1 退房前 (Pre Check-out)",
+                step1_1_desc: "提醒客人，减少延迟退房 (Booking Active)",
+                step1_2: "1.2 退房 (Check-out)",
+                step1_2_desc: "客人确认退房，房间进入周转状态",
+                step1_3: "1.3 检查 (关键控制点)",
+                step1_3_desc: "清洁前检查状况 <br> 发现损坏: 扣留押金, 创建工单",
+                step1_4: "1.4 清洁 (Cleaning)",
+                step1_4_desc: "按清单清洁 + 上传清洁照片作为证据",
+                step1_5: "1.5 准备就绪 (Readiness)",
+                step1_5_desc: "SLA检查, 发送感谢信及评论请求",
+                sec2_title: "2. 财务周期",
+                fin_calc: "2.1 收入计算",
+                fin_calc_desc: "计算实际收入 (住宿费 - 管理费 - 支出)",
+                fin_review: "2.3 审核 (人工控制)",
+                fin_review_desc: "经理审核草案，调整损坏赔偿或退款",
+                fin_payout: "2.4 支付 (Payout)",
+                fin_payout_desc: "报表最终确认后，支付网关进行处理",
+                fin_audit: "2.5 通知与记录",
+                fin_audit_desc: "记录以供审计，通知业主以保持透明",
+                sec3_title: "3. 风险管理",
+                risk_monitor: "监控",
+                risk_monitor_desc: "追踪预订, 工单, 支付, 反馈",
+                risk_detect: "检测",
+                risk_detect_desc: "信号: 损坏, 投诉, 延迟付款",
+                risk_action: "缓解措施",
+                risk_action_desc: "低: 标准作业 / 高: 开启风险案例, 扣留押金",
+                sec4_title: "4. 主要用户角色",
+                role_guest: "<li>请求 / 沟通</li><li>入住 / 住宿</li>",
+                role_ops: "<li>检查 (Inspection)</li><li>清洁</li><li>解决问题</li>",
+                role_manager: "<li>财务控制</li><li>风险管理</li><li>批准支付</li>",
+                role_owner: "<li>查看报表</li><li>接收款项</li>",
+                summary_title: "Siamo PMS 总结",
+                summary_desc: "控制驱动型 PMS: 每一步都有证据 • 防止纠纷 • 财务透明 • 企业级准备"
+            }
+        };
+
+        // --- Logic Functions ---
+
+        function changeLanguage() {
+            const lang = document.getElementById('lang-select').value;
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    // Check if content contains HTML (like <li>)
+                    if (translations[lang][key].includes('<')) {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.innerText = translations[lang][key];
+                    }
+                }
+            });
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            
+            const btn = document.getElementById('theme-toggle');
+            btn.innerText = newTheme === 'light' ? '🌙 Mode' : '☀️ Mode';
+        }
+    </script>
+</body>
+</html>
